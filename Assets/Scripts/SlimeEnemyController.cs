@@ -4,8 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlimeEnemyController : MonoBehaviour
-{
+public class SlimeEnemyController : MonoBehaviour{
 
 	//Variables use for the Slime such as how fast to move, what direction to move and whether what it looks out for and where it does so.
 	public float moveSpeed = 2f;
@@ -26,14 +25,12 @@ public class SlimeEnemyController : MonoBehaviour
 	public LayerMask whatIsBorder;
 
 	// Use this for initialization
-	void Start ()
-	{
+	void Start (){
 		
 	}
 	
 	// Update is called once per frame
-	void Update ()
-	{
+	void Update (){
 
 		//Set these bools to whether or not the transforms (points in space relative to the Slime itself) are within a certain distance to an object with a certain LayerMask value.
 		hittingWall = Physics2D.OverlapCircle (wallCheck.position, checkRadius, whatIsWall);

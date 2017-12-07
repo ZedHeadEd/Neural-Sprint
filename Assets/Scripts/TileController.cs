@@ -4,8 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileController : MonoBehaviour
-{
+public class TileController : MonoBehaviour{
 
 	//Variables the tile contains such as position, whether it is a neutral, positive or negative Tile and if an enemy or player occupies that tile.
 	public bool positive = false;
@@ -21,14 +20,12 @@ public class TileController : MonoBehaviour
 	public int posY = -1;
 
 	// Use this for initialization
-	void Start ()
-	{
+	void Start (){
 		
 	}
 	
 	// Update is called once per frame
-	void Update ()
-	{
+	void Update (){
 
 		//If a dangerous element such as an enemy occupies this tile update this tile as Negative, if not, return to previous state.
 		if (dangerPresent) {
@@ -56,8 +53,7 @@ public class TileController : MonoBehaviour
 	}
 
 	//A method that can called to internally set the tile position.
-	public void setPos (int x, int y)
-	{
+	public void setPos (int x, int y){
 		posX = x;
 		posY = y;
 	}

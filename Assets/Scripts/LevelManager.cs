@@ -7,9 +7,7 @@ using UnityEngine.UI;
 using System.IO;
 using UnityEngine.SceneManagement;
 
-public class LevelManager : MonoBehaviour
-{
-
+public class LevelManager : MonoBehaviour{
 	//Variables that determine the state of the LM and what it does.
 	public bool savePool = false;
 	public bool playTop = false;
@@ -89,8 +87,7 @@ public class LevelManager : MonoBehaviour
 	GameObject Tiles;
 
 	// Use this for initialization
-	void Start ()
-	{
+	void Start (){
 		//Read in all of the values from the config file.
 		readConfig ();
 
@@ -123,8 +120,7 @@ public class LevelManager : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update ()
-	{
+	void Update (){
 
 		//If the user presses the Esc key return to the main Menu.
 		if (Input.GetKeyDown (KeyCode.Escape)) {
@@ -225,14 +221,12 @@ public class LevelManager : MonoBehaviour
 	}
 		
 	//A method that sets the state of the player to dead.
-	public void playerHasDied ()
-	{
+	public void playerHasDied (){
 		playerDied = true;
 	}
 
 	//Method to read in all required values from the config file.
-	void readConfig ()
-	{
+	void readConfig (){
 		//An array to read in the values of the file of the level.
 		int[,] readInLevel = new int[1, 1];
 
@@ -292,8 +286,7 @@ public class LevelManager : MonoBehaviour
 	}
 
 	//This method shall pad the level out with extra tiles to prevent any possible out of bounds errors.
-	void padlevel ()
-	{
+	void padlevel (){
 		//Getting the dimensions of the original array that will be converted.
 		int arrayHeight = levelArray.GetLength (0);
 		int arrayWidth = levelArray.GetLength (1);
@@ -343,8 +336,7 @@ public class LevelManager : MonoBehaviour
 	}
 
 	//Generates level from prefabs and levelArray information.
-	void Generatelevel ()
-	{
+	void Generatelevel (){
 		//Counter1 for the Y position and Counter2 for the X position.
 		for (int counter1 = 0; counter1 < tileArray.GetLength (0); counter1++) {
 			for (int counter2 = 0; counter2 < tileArray.GetLength (1); counter2++) {
@@ -466,8 +458,7 @@ public class LevelManager : MonoBehaviour
 	}
 
 	//Keeps track of the player's current position within the level array boundries.
-	void UpdatePlayerPosition ()
-	{
+	void UpdatePlayerPosition (){
 		//Storing the players position in a temp Vector3.
 		tempVec = PlayerCharacter.GetComponent<Transform> ().position;
 
@@ -516,8 +507,7 @@ public class LevelManager : MonoBehaviour
 	}
 
 	//Keeps track of the enemies's current position within the level array boundries.
-	void UpdateEnemyPositions ()
-	{
+	void UpdateEnemyPositions (){
 		//Update each enemy position individually.
 		for (int counter = 0; counter < enemiesGenerated; counter++) {
 
@@ -570,8 +560,7 @@ public class LevelManager : MonoBehaviour
 	}
 
 	//Restarts the level by destroying all objects and running GenerateLevel() again.
-	void RestartLevel ()
-	{
+	void RestartLevel (){
 		//Destroy the player's object.
 		Destroy (PlayerCharacter);
 
@@ -600,7 +589,6 @@ public class LevelManager : MonoBehaviour
 		//Go through the tileArray and destroy and re-create certain objects.
 		for (int counter1 = 0; counter1 < tileArray.GetLength (0); counter1++) {
 			for (int counter2 = 0; counter2 < tileArray.GetLength (1); counter2++) {
-
 				//Destroy the player's object and tile and re-create them.
 				//Else destroy an enemy's object and tile and re-create them.
 				if (levelArray [counter1, counter2] == 2) {
@@ -649,7 +637,6 @@ public class LevelManager : MonoBehaviour
 				}
 			}
 		}
-
 		//Free up all unused unity objects from memory.
 		Resources.UnloadUnusedAssets ();
 	}

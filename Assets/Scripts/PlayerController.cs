@@ -3,12 +3,11 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerController : MonoBehaviour
-{
+public class PlayerController : MonoBehaviour{
 
 	//Varibles for movement and such.
-	public float moveSpeed = 5;
-	public float jumpSpeed = 20;
+	public float moveSpeed = 200;
+	public float jumpSpeed = 200;
 	public float moveVelocity = 0;
 	public float scale = 1;
 
@@ -19,6 +18,7 @@ public class PlayerController : MonoBehaviour
 	public bool combojump = false;
 	public bool isWalking = false;
 	public bool grounded = false;
+	public bool jumpBool = false;
 
 	//Variables to help determine if the player is standing on the ground or not.
 	public LayerMask whatisGround;
@@ -41,20 +41,89 @@ public class PlayerController : MonoBehaviour
 	 */
 
 	// Use this for initialization
-	void Start ()
-	{
+	void Start (){
 		//Buttons should be W,A,S,D + J,K
 		buttonsPressedP = new bool[6];
 
 		//Find and assign the objects Animator object to anim.
 		anim = GetComponent<Animator> ();
 	}
+
+	void FixedUpdate(){
+		//Update the players physics velocity.
+
+
+
+		GetComponent<Rigidbody2D> ().velocity = new Vector2 (-moveVelocity, GetComponent<Rigidbody2D> ().velocity.y);
+
+		if(jumpBool){
+			//If the player comboJumped increase said force.
+			//If the player is moving faster increase the jump's force and either way apply said force top the player.
+			if (faster && combojump) {
+				GetComponent<Rigidbody2D> ().AddForce (new Vector2(0f, jumpSpeed* 1.5f), ForceMode2D.Impulse);
+				//GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, jumpSpeed * 1.3f);
+			} else if (faster ^ combojump) {
+				GetComponent<Rigidbody2D> ().AddForce (new Vector2(0f, jumpSpeed* 1.2f), ForceMode2D.Impulse);
+				//GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, jumpSpeed * 1.2f);
+			} else {
+				GetComponent<Rigidbody2D> ().AddForce (new Vector2(0f, jumpSpeed), ForceMode2D.Impulse);
+				//GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, tempFloat);
+			}
+
+			//Update the state of the player here and in the animator.
+			jumped = true;
+			anim.SetBool ("Jumped", true);
+			jumpBool = false;
+		}
+
+		//If the player tries to move right and left at the same time do neither.
+		//If the player has ducked the he is unable to move.
+		//If the player presses the 'D' key, the player faces right and add the approiate force in that direction. Vice Versa for A.
+		if (!ducked) {
+			if ((Input.GetKey (KeyCode.D) || buttonsPressedP [3] == true) && !(Input.GetKey (KeyCode.A) || buttonsPressedP [1] == true)) {
+				transform.localScale = new Vector3 (scale, scale, 1f);
+
+				if (faster) {
+					GetComponent<Rigidbody2D> ().AddForce (new Vector2(moveSpeed*1.5f, 0f), ForceMode2D.Force);
+					moveVelocity = -moveSpeed * 1.5f;
+				} else {
+					GetComponent<Rigidbody2D> ().AddForce (new Vector2(moveSpeed, 0f), ForceMode2D.Force);
+					moveVelocity = -moveSpeed;
+				}
+			}
+
+			if ((Input.GetKey (KeyCode.A) || buttonsPressedP [1] == true) && !((Input.GetKey (KeyCode.D) || buttonsPressedP [3] == true))) {
+				transform.localScale = new Vector3 (-scale, scale, 1f);
+
+				if (faster) {
+					GetComponent<Rigidbody2D> ().AddForce (new Vector2(-moveSpeed*1.5f, 0f), ForceMode2D.Force);
+					moveVelocity = moveSpeed * 1.5f;
+				} else {
+					GetComponent<Rigidbody2D> ().AddForce (new Vector2(-moveSpeed, 0f), ForceMode2D.Force);
+					moveVelocity = moveSpeed;
+				}
+			}
+		}
+
+
+		if(GetComponent<Rigidbody2D> ().velocity.x > 15f){
+			float tempfloat = GetComponent<Rigidbody2D> ().velocity.y;
+			GetComponent<Rigidbody2D> ().velocity = new Vector2(15f, tempfloat);
+		} else if (GetComponent<Rigidbody2D> ().velocity.x < -15f){
+			float tempfloat = GetComponent<Rigidbody2D> ().velocity.y;
+			GetComponent<Rigidbody2D> ().velocity = new Vector2(-15f, tempfloat);
+		}
+
+	}
 	
 	// Update is called once per frame
-	void Update ()
-	{
+	void Update (){
 		//Slows the player down gradually
 		moveVelocity = moveVelocity * 0.90F;
+
+		//Resets the rotation of the player that may have changed due to local forces applied or ones external.
+		Quaternion temp = new Quaternion (0f, 0f, 0f, 0f);
+		GetComponent<Transform> ().rotation = temp;
 
 		//Check if the position of groundCheck is within a ground object and if so set to true.
 		grounded = Physics2D.OverlapCircle (groundCheck.position, groundCheckRadius, whatisGround);
@@ -101,66 +170,22 @@ public class PlayerController : MonoBehaviour
 			
 		//If K is pressed and the player hasn't alreadly jump allow the player to jump.
 		if ((Input.GetKeyDown (KeyCode.K) || buttonsPressedP [5] == true) && !jumped) {
-			Jump ();
+			jumpBool = true;
+			//Jump ();
 		}
 
-		//If the player tries to move right and left at the same time do neither.
-		//If the player has ducked the he is unable to move.
-		//If the player presses the 'D' key, the player faces right and add the approiate force in that direction. Vice Versa for A.
-		if (!ducked) {
-			if ((Input.GetKey (KeyCode.D) || buttonsPressedP [3] == true) && !(Input.GetKey (KeyCode.A) || buttonsPressedP [1] == true)) {
-				transform.localScale = new Vector3 (scale, scale, 1f);
 
-				if (faster) {
-					moveVelocity = -moveSpeed * 1.5f;
-				} else {
-					moveVelocity = -moveSpeed;
-				}
-			}
 
-			if ((Input.GetKey (KeyCode.A) || buttonsPressedP [1] == true) && !((Input.GetKey (KeyCode.D) || buttonsPressedP [3] == true))) {
-				transform.localScale = new Vector3 (-scale, scale, 1f);
 
-				if (faster) {
-					moveVelocity = moveSpeed * 1.5f;
-				} else {
-					moveVelocity = moveSpeed;
-				}
-			}
-		}
-
-		//Update the players physics velocity.
-		GetComponent<Rigidbody2D> ().velocity = new Vector2 (-moveVelocity, GetComponent<Rigidbody2D> ().velocity.y);
-
-		//Resets the rotation of the player that may have changed due to local forces applied or ones external.
-		Quaternion temp = new Quaternion (0f, 0f, 0f, 0f);
-		GetComponent<Transform> ().rotation = temp;
 	}
 
 	//A method that can be called to receive what buttons are being pressed by the NN.
-	public void getButtonsPressedPl (bool[] incomingButtons)
-	{
+	public void getButtonsPressedPl (bool[] incomingButtons){
 		buttonsPressedP = incomingButtons;
 	}
 
 	//A method that applies a vertical force to the player causing them to rise or "Jump".
-	public void Jump ()
-	{
-		//Set a temporary variable to the default value for the force of a jump.
-		float tempFloat = jumpSpeed;
-
-		//If the player comboJumped increase said force.
-		//If the player is moving faster increase the jump's force and either way apply said force top the player.
-		if (faster && combojump) {
-			GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, tempFloat * 1.3f);
-		} else if (faster ^ combojump) {
-			GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, tempFloat * 1.2f);
-		} else {
-			GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, tempFloat);
-		}
-
-		//Update the state of the player here and in the animator.
-		jumped = true;
-		anim.SetBool ("Jumped", true);
+	public void Jump (){
+		
 	}
 }

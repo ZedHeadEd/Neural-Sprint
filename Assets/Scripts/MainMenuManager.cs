@@ -7,9 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.IO;
 
-public class MainMenuManager : MonoBehaviour
-{
-
+public class MainMenuManager : MonoBehaviour{
 	//Game objects for the buttons which have been assigned via the Unity Editor.
 	public GameObject NeuralPlayButton;
 	public GameObject FreePlayButton;
@@ -18,14 +16,13 @@ public class MainMenuManager : MonoBehaviour
 	public GameObject WhatIsNeuralPlayButton;
 
 	//Runs before any runs start and set frame rate to 60fps.
-	void Awake() {
+	void Awake(){
 		QualitySettings.vSyncCount = 0;
 		Application.targetFrameRate = 60;
 	}
 
 	// Use this for initialization
-	void Start ()
-	{
+	void Start (){
 		//On Scene creation tell the buttons to perform a method if pressed while the Scene is loaded.
 		NeuralPlayButton.GetComponent<Button> ().onClick.AddListener (neuralButtonOnClick);
 		FreePlayButton.GetComponent<Button> ().onClick.AddListener (freeButtonOnClick);
@@ -35,14 +32,12 @@ public class MainMenuManager : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update ()
-	{
+	void Update (){
 
 	}
 
 	//A method that modifies the value in the config file to tell the Level Manager to run the program in Neural Mode and to actively run the Neural Network.
-	void neuralButtonOnClick ()
-	{
+	void neuralButtonOnClick (){
 		//Check format of config file.
 		if (configCorrectFormat () == 0) {
 
@@ -62,8 +57,7 @@ public class MainMenuManager : MonoBehaviour
 	}
 
 	//A method that modifies the value in the config file to tell the Level Manager to not run the program in Neural Mode and Free Mode instead and to not actively run the Neural Network.
-	void freeButtonOnClick ()
-	{
+	void freeButtonOnClick (){
 		//Check format of config file.
 		if (configCorrectFormat () == 0) {
 
@@ -84,24 +78,21 @@ public class MainMenuManager : MonoBehaviour
 	}
 
 	//A Method to load the Scene containing the informnation on the program itself.
-	void whatIsButtonOnClick ()
-	{
+	void whatIsButtonOnClick (){
 
 		//Load the Scene.
 		SceneManager.LoadScene ("WhatIsNeuralSprintScene", LoadSceneMode.Single);
 	}
 
 	//A Method to load the Scene containing the informnation on the Neural Mode.
-	void neuralInsButtonOnClick ()
-	{
+	void neuralInsButtonOnClick (){
 
 		//Load the Scene.
 		SceneManager.LoadScene ("NeuralPlayInsSceneA", LoadSceneMode.Single);
 	}
 
 	//A Method to load the Scene containing the informnation on the Free Mode.
-	void freeInsButtonOnClick ()
-	{
+	void freeInsButtonOnClick (){
 
 		//Load the Scene.
 		SceneManager.LoadScene ("FreePlayInsScene", LoadSceneMode.Single);

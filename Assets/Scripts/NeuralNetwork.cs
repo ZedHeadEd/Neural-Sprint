@@ -5,9 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 
-public class NeuralNetwork : MonoBehaviour
-{
-
+public class NeuralNetwork : MonoBehaviour{
 	//Variables for the receiving and sending of information to and from the NN and LM.
 	int[,] inputs = new int[11, 11];
 	int inputDimensions = 11;
@@ -82,8 +80,7 @@ public class NeuralNetwork : MonoBehaviour
 	public int maxNodes = 780;
 
 	// Use this for initialization
-	void Start ()
-	{
+	void Start (){
 
 		//If the game is running in Neural Mode then generate the UI.
 		if (runningNN) {
@@ -92,52 +89,44 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update ()
-	{
+	void Update (){
 
 	}
 
 	//A method to be called to tell the NN that the player has died.
-	public void playerDeath (bool hasHeDied)
-	{
+	public void playerDeath (bool hasHeDied){
 		playerHasDied = hasHeDied;
 	}
 
 	//A method to be called to tell the NN that the player has reached the end of the stage.
-	public void endOfLevelReached ()
-	{
+	public void endOfLevelReached (){
 		endOfLevel = true;
 	}
 
 	//A method to be called to tell the NN what the player's position was when the level/run was started.
-	public void getPlayerStartingPos (float incomingX, float incomingY)
-	{
+	public void getPlayerStartingPos (float incomingX, float incomingY){
 		playerStartingX = incomingX;
 		playerStartingY = incomingY;
 	}
 
 	//A method to be called to tell the NN what the player's position at that point in time.
-	public void getPlayerCurrentPos (float incomingX, float incomingY)
-	{
+	public void getPlayerCurrentPos (float incomingX, float incomingY){
 		playerCurrentX = incomingX;
 		playerCurrentY = incomingY;
 	}
 
 	//A method to be called to tell the LM what buttons the NN is pressing.
-	public bool[] getButtonOutputs ()
-	{
+	public bool[] getButtonOutputs (){
 		return buttonsPressed;
 	}
 
 	//A method to be called to tell the LM if the level should be restarted.
-	public bool getRestartOutputs ()
-	{
+	public bool getRestartOutputs (){
 		return restartLMLevel;
 	}
 
 	//A method that generates the UI display.
-	public void generateDisplay ()
-	{
+	public void generateDisplay (){
 
 		//Generating the default UI prefab and the empty Nodes object that the new nodes will be allocated to for tidyness.
 		UI = Instantiate (UIPrefab, new Vector3 (0, 0, 0), Quaternion.identity);
@@ -160,7 +149,7 @@ public class NeuralNetwork : MonoBehaviour
 			for (int counter2 = 0; counter2 < inputDimensions; counter2++) {
 
 				//Generate the Node object, make it a child of Nodes, assign it to the array and increment NodeNum.
-				tempGOGO = Instantiate (NodePrefab, new Vector3 (((float)counter2 * distanceBetweenNodes) + 25f, -((float)counter1 * distanceBetweenNodes) + 650f, 0), Quaternion.identity);
+				tempGOGO = Instantiate (NodePrefab, new Vector3 (((float)counter2 * distanceBetweenNodes) -595f, -((float)counter1 * distanceBetweenNodes) + 295f, 0), Quaternion.identity);
 				tempGOGO.transform.SetParent (Nodes.transform);
 				NodeArray [nodeNum] = tempGOGO;
 				nodeNum = nodeNum + 1;
@@ -169,7 +158,7 @@ public class NeuralNetwork : MonoBehaviour
 		}
 
 		//Generating bias Node and make it a child of Nodes.
-		tempGOGO = Instantiate (NodePrefab, new Vector3 (200f, 650f, 0), Quaternion.identity);
+		tempGOGO = Instantiate (NodePrefab, new Vector3 (-445f, 108f, 0), Quaternion.identity);
 		tempGOGO.transform.SetParent (Nodes.transform);
 		NodeArray [nodeNum] = tempGOGO;
 		nodeNum = nodeNum + 1;
@@ -186,7 +175,7 @@ public class NeuralNetwork : MonoBehaviour
 				if (!(nodeNum < maxNodes)) {
 					break;
 				}
-				tempGOGO = Instantiate (NodePrefab, new Vector3 (((float)rowNumber* distanceBetweenNodes) + 25f + 200f, 650f - (float)(counter * distanceBetweenNodes), 0), Quaternion.identity);
+				tempGOGO = Instantiate (NodePrefab, new Vector3 (((float)rowNumber* distanceBetweenNodes) -400f, 295f - (float)(counter * distanceBetweenNodes), 0), Quaternion.identity);
 				tempGOGO.transform.SetParent (Nodes.transform);
 				NodeArray [nodeNum] = tempGOGO;
 				nodeNum = nodeNum + 1;
@@ -196,7 +185,7 @@ public class NeuralNetwork : MonoBehaviour
 
 		//As before but for the Out Nodes.
 		for (int counter = 0; counter < outputSize; counter++) {
-			tempGOGO = Instantiate (NodePrefab, new Vector3 (1160f, 650f - (float)(distanceBetweenNodes * 2 * counter), 0), Quaternion.identity);
+			tempGOGO = Instantiate (NodePrefab, new Vector3 (520f, 287f - (float)(distanceBetweenNodes * 2 * counter), 0), Quaternion.identity);
 			tempGOGO.transform.SetParent (Nodes.transform);
 			NodeArray [maxNodes + counter] = tempGOGO;
 		}
@@ -204,8 +193,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to update the display information (UI) whenever called.
-	public void updateDisplay (List<Neuron> incomingNetwork)
-	{
+	public void updateDisplay (List<Neuron> incomingNetwork){
 
 		//A variable to remember which neuron is currently being looking at.
 		int nodeNum = 0;
@@ -279,8 +267,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to update the Genome part of the UI when called.
-	public void updateGenomeDisplay (List<Neuron> incomingNetwork)
-	{
+	public void updateGenomeDisplay (List<Neuron> incomingNetwork){
 
 		//To address a known bug where the function would sometimes be called when the NodeArray does not yet fully exist.
 		if (NodeArray.Length == 1) {
@@ -376,8 +363,7 @@ public class NeuralNetwork : MonoBehaviour
 
 
 	//A method to read in the data from a file that contains a previously saved Pool and assign that data to the NN's Pool.
-	public void readInPool ()
-	{
+	public void readInPool (){
 
 		//Create and assign a new Pool the NN's main Pool.
 		mainPool = basicPool ();
@@ -630,8 +616,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to save the current state of the Pool to a file to be loaded for later uses of teh application.
-	public void savePool ()
-	{
+	public void savePool (){
 
 		//Using TextWriter create a new "savedPool.pool" file or overwrite one that alreadly exists.
 		using (TextWriter writer = File.CreateText ("savedPool.pool")) {
@@ -716,8 +701,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//Retreive the inputs from what is around the player from the LM and store them in inputs.
-	public void sendInputs (GameObject[,] incomingArray, int playerX, int playerY)
-	{
+	public void sendInputs (GameObject[,] incomingArray, int playerX, int playerY){
 
 		//Temporary variables to keep track of where in the incomingArray we are looking at.
 		int tempIntA = 0;
@@ -748,8 +732,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to genetically crossover the genomeGenes of two speciesGenomes with genome 1 better the one of higher fitness.
-	public Genome genomeCrossover (Genome genome1, Genome genome2)
-	{
+	public Genome genomeCrossover (Genome genome1, Genome genome2){
 
 		//New genome that will be returned.
 		Genome childGenome = new Genome ();
@@ -851,24 +834,21 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//Creates and returns a basic starting genome. (Brand new and mutated.)
-	public Genome basicGenome ()
-	{
+	public Genome basicGenome (){
 		Genome tempG = new Genome ();
 		mutate (ref tempG);
 		return tempG;
 	}
 
 	//Creates and sets up a brand new Pool Object.
-	public Pool basicPool ()
-	{
+	public Pool basicPool (){
 		Pool tempP = new Pool ();
 		tempP.innovation = outputSize;
 		return tempP;
 	}
 
 	//Generate the genomeNetwork for the given Genome
-	public void generateNetwork (ref Genome genome0)
-	{
+	public void generateNetwork (ref Genome genome0){
 
 		//Creating a new Neuron List to represent the newly generated genomeNetwork.
 		List<Neuron> tempNetwork = new List<Neuron> ();
@@ -940,8 +920,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//Returns the number representing a random neuron from the passed through gene list.
-	public int randomNeuron (List<Gene> incomingGenes, bool inputNode)
-	{
+	public int randomNeuron (List<Gene> incomingGenes, bool inputNode){
 
 		//Bool array for all possible nodes including the input nodes and output nodes.
 		bool[] neuronBoolList = new bool[outputSize + maxNodes];
@@ -997,8 +976,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to check if there is a link between a gene and a set of genomeGenes (Both genomeGenes having the same neuronIn and neuronOut values).
-	public bool containsLink (List<Gene> incomingGenes, Gene possibleLink)
-	{
+	public bool containsLink (List<Gene> incomingGenes, Gene possibleLink){
 
 		for (int counter = 0; counter < incomingGenes.Count; counter++) {
 
@@ -1011,8 +989,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//Go through a speciesGenomes genomeGenes and alter their weights depending on the value of perturbChance and a random value.
-	public void geneWeightMutate (ref Genome incomingGenome5)
-	{
+	public void geneWeightMutate (ref Genome incomingGenome5){
 
 		//A variable to more conviently store the Genome genomeStepSize value.
 		float tempStep = incomingGenome5.genomeStepSize;
@@ -1029,8 +1006,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to mutate a genome to create another link (A gene connecting two neurons).
-	public void geneLinkMutate (ref Genome incomingGenome4, bool bias)
-	{
+	public void geneLinkMutate (ref Genome incomingGenome4, bool bias){
 
 		//Select two random neurons, the second having no chance of being a inputNode.
 		int tempNeuron1 = randomNeuron (incomingGenome4.genomeGenes, false);
@@ -1071,8 +1047,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to disable an existing gene and replace it with a new node and two genomeGenes still keeping the incoming and outgoing direction as before.
-	public void nodeMutate (ref Genome incomingGenome3)
-	{
+	public void nodeMutate (ref Genome incomingGenome3){
 
 		//If there are no genomeGenes ignore.
 		if (incomingGenome3.genomeGenes.Count != 0) {
@@ -1146,8 +1121,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to find a single gene in the incoming genome to flip to what toEnable is.
-	public void disableEnableMutate (ref Genome incomingGenome1, bool toEnable)
-	{
+	public void disableEnableMutate (ref Genome incomingGenome1, bool toEnable){
 
 		//Variables that will hold which genomeGenes can switch.
 		int numOfGenesToSwitch = 0;
@@ -1186,8 +1160,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method that calls the other mutate functions and alters values and mutate chances.
-	public void mutate (ref Genome incomingGenome2)
-	{
+	public void mutate (ref Genome incomingGenome2){
 
 		//A variable to hold the amount of times a certain mutation method is called.
 		float numOfGenomeMutations = 0;
@@ -1279,8 +1252,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to show the number of disjointed genomeGenes between two sets of genomeGenes.
-	public float disjointGenes (List<Gene> genes1, List<Gene> genes2)
-	{
+	public float disjointGenes (List<Gene> genes1, List<Gene> genes2){
 
 		//Getting the correct length to make the bool arrays later based on the bigger
 		int arrayLength = 0;
@@ -1349,8 +1321,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to show the overall difference in weight between two lists of genomeGenes.
-	public float weightDifference (List<Gene> genes1, List<Gene> genes2)
-	{
+	public float weightDifference (List<Gene> genes1, List<Gene> genes2){
 
 		//Getting the correct length to make the Gene array later.
 		int arrayLength = 0;
@@ -1407,8 +1378,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to show whether two speciesGenomes would be considered to be from the same poolSpecies.
-	public bool sameSpecies (Genome genome1, Genome genome2)
-	{
+	public bool sameSpecies (Genome genome1, Genome genome2){
 
 		//Gather the values of disjoints, weight difference and excesses by their delta values and see if together they are less than the threshold.
 		float disjoints0 = disjointGenes (genome1.genomeGenes, genome2.genomeGenes);
@@ -1419,8 +1389,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to calculate all the genome's adjusted fitness based againist who else is in their poolSpecies. This is the Explict fitness sharing.
-	public void calculateAdjustedFitness ()
-	{
+	public void calculateAdjustedFitness (){
 
 		//Variables to hold a temporary value for fitness and the current genome being evaluated.
 		int genomeBeingEvaluated = 0;
@@ -1467,8 +1436,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to rank speciesGenomes againist each other from all poolSpecies from the incoming pool.
-	public void rankGenomes ()
-	{
+	public void rankGenomes (){
 
 		//The number of speciesGenomes that exist and to be used for creating further arrays.
 		int numOfGenomes = 0;
@@ -1539,8 +1507,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to calculate the average fitness of a poolSpecies by getting the global rank value of all speciesGenomes divided by the number of speciesGenomes.
-	public void calculateAverageFitness (ref Species incomingSpecies)
-	{
+	public void calculateAverageFitness (ref Species incomingSpecies){
 
 		//Temp float to store the calculated average fitness.
 		int tempInt = 0;
@@ -1555,8 +1522,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to calculate the average fitness of a Pool.
-	public float totalAverageFitness ()
-	{
+	public float totalAverageFitness (){
 
 		//Temp float to store the calculated average fitness.
 		float tempFloat = 0f;
@@ -1572,8 +1538,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to remove speciesGenomes of their poolSpecies to half their size or down to only one depending on the value of the passed in bool.
-	public void cullGenomesInSpecies (bool downToOne)
-	{
+	public void cullGenomesInSpecies (bool downToOne){
 
 		//Temporary Genomes to be used in the bubble sort.
 		Genome tempGenome1 = new Genome ();
@@ -1625,8 +1590,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to generate a new genome from an referenced Species by either crossover or duplication and then mutating further and returning the new genome.
-	public Genome breedChildGenome (Species incomingSpecies)
-	{
+	public Genome breedChildGenome (Species incomingSpecies){
 
 		//Temporary genome variables.
 		Genome child = new Genome ();
@@ -1650,8 +1614,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to remove poolSpecies from a pool that fail to improve enough over an alotted period of time.
-	public void removeStaleSpecies ()
-	{
+	public void removeStaleSpecies (){
 
 		//A new list of poolSpecies that will become the pool's poolSpecies list after revising the current list.
 		List<Species> revisedSpecies = new List<Species> ();
@@ -1716,8 +1679,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to remove poolSpecies from the pool that's average fitness that is less than the average of the rest of the poolSpecies in the pool.
-	public void removeWeakSpecies ()
-	{
+	public void removeWeakSpecies (){
 
 		//A new list of poolSpecies that will become the pool's poolSpecies list after revising the current list.
 		List<Species> revisedSpecies = new List<Species> ();
@@ -1744,8 +1706,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to take a genome and add it to a fitting poolSpecies and if one does not exist then create a poolSpecies for that new genome.
-	public void addToSpecies (Genome incomingGenome)
-	{
+	public void addToSpecies (Genome incomingGenome){
 
 		//Variable to check whether a suitable poolSpecies has been found.
 		bool speciesFound = false;
@@ -1780,8 +1741,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to create the next generation of a Pool.
-	public void newGeneration ()
-	{
+	public void newGeneration (){
 
 		//Get the adjusted fitness for all of the speciesGenomes that exist within the pool.
 		calculateAdjustedFitness ();
@@ -1864,8 +1824,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//Evaluates the genomeNetwork, passing through the input values, altering them and outputting the resulting output button presses.
-	public void evaluateNetwork (ref List<Neuron> incomingNetwork)
-	{
+	public void evaluateNetwork (ref List<Neuron> incomingNetwork){
 
 		//Temporary Int variable to keep track of where in the incomingNetwork we are.
 		int nodeNum = 0;
@@ -1925,8 +1884,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to generate a new pool and populate it with new speciesGenomes and start a new run.
-	public void initializePool ()
-	{
+	public void initializePool (){
 
 		//Creating a new pool.
 		mainPool = basicPool ();
@@ -1941,8 +1899,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to start a new run of teh NN with the current genome.
-	public void initializeRun ()
-	{
+	public void initializeRun (){
 
 		//Reset variables that determine the start of a run, player progress, currentLoop, the level's timeout, and buttons pressed.
 		startOfRunPos = true;
@@ -1962,8 +1919,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to evaluate the current state of the inputs through the NN and send back the outputs via button presses.
-	public void evaluateCurrent ()
-	{
+	public void evaluateCurrent (){
 
 		Genome TempGGG = mainPool.poolSpecies [mainPool.currentSpecies].speciesGenomes [mainPool.currentGenome];
 		evaluateNetwork (ref TempGGG.genomeNetwork);
@@ -1983,8 +1939,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to move onto the next genome in the pool and if reaches the end make the next generation.
-	public void nextGenome ()
-	{
+	public void nextGenome (){
 
 		//Set the current genome to the next one in the list.
 		mainPool.currentGenome = mainPool.currentGenome + 1;
@@ -2006,22 +1961,19 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A simple method to check whether the current genome has alreadly been tested.
-	public bool genomeAlreadlyTested ()
-	{
+	public bool genomeAlreadlyTested (){
 		return mainPool.poolSpecies [mainPool.currentSpecies].speciesGenomes [mainPool.currentGenome].fitness != 0;
 	}
 
 	//A simple method to reset the bool array for the controller inputs back to nothing being pressed.
-	public void resetButtonsPressed ()
-	{
+	public void resetButtonsPressed (){
 		for (int counter = 0; counter < buttonsPressed.Length; counter++) {
 			buttonsPressed [counter] = false;
 		}
 	}
 
 	//The method the comprises the main loop and operation of the NN.
-	public void mainLoop ()
-	{
+	public void mainLoop (){
 
 		//Reset tempFitness to 0 in case of a new run.
 		tempFitness = 0;
@@ -2170,8 +2122,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to force a run of the pool's current best performed Genome.
-	public void playTopScoringGenome ()
-	{
+	public void playTopScoringGenome (){
 
 		//Variables to keep track of the best genome found thus far in the pool.
 		int topScoringSpecies = 0;
@@ -2209,8 +2160,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to force a run of the pool's Champion Genome.
-	public void playChampionGenome ()
-	{
+	public void playChampionGenome (){
 
 		//Temporary Genome objects to be used for swapping.
 		Genome tempGenome1 = new Genome ();
@@ -2250,8 +2200,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to be called that will force a run of the Pool's top Genome and prevent it from being interrupted.
-	public void nowPlayTop ()
-	{
+	public void nowPlayTop (){
 		if (!playTopRevert && !playChampionRevert) {
 			timeout = -1;
 			timeoutBonus = -1;
@@ -2261,8 +2210,7 @@ public class NeuralNetwork : MonoBehaviour
 	}
 
 	//A method to be called that will force a run of the Pool's champion Genome and prevent it from being interrupted.
-	public void nowPlayChampion ()
-	{
+	public void nowPlayChampion (){
 		if (!playChampionRevert && !playTopRevert) {
 			timeout = -1;
 			timeoutBonus = -1;
@@ -2272,16 +2220,14 @@ public class NeuralNetwork : MonoBehaviour
 
 
 	//A method to perform NEAT's sigmoid calculation.
-	public float sigmoid (float x)
-	{
+	public float sigmoid (float x){
 		float temp1 = -4.9f;
 		float expTemp = Mathf.Exp (temp1 * x);
 		return 2 / (1 + expTemp) - 1;
 	}
 
 	//A method to return the value for excess genomeGenes by it's delta weight.
-	public float excessGenes (List<Gene> genes1, List<Gene> genes2)
-	{
+	public float excessGenes (List<Gene> genes1, List<Gene> genes2){
 		//Variables to keep track of the length of both Gene lists.
 		int longNum = 0;
 		int shortNum = 0;
@@ -2309,8 +2255,7 @@ public class NeuralNetwork : MonoBehaviour
 }
 
 //A custom class object to represent a Gene.
-public class Gene
-{
+public class Gene{
 	//neuronIn AND neuronOut represent the Neuron going into the gene and out from the gene.
 	public int neuronIn = 0;
 	public int neuronOut = 0;
@@ -2318,14 +2263,12 @@ public class Gene
 	public int innovation = 0;
 	public bool enabled = true;
 
-	public Gene ()
-	{
+	public Gene (){
 
 	}
 
 	//A method that copies all the values of another Gene into itself.
-	public void geneFullCopy (Gene gene0)
-	{
+	public void geneFullCopy (Gene gene0){
 		neuronIn = gene0.neuronIn;
 		neuronOut = gene0.neuronOut;
 		weight = gene0.weight;
@@ -2335,21 +2278,18 @@ public class Gene
 }
 
 //A custom class object to represent a Neuron.
-public class Neuron
-{
+public class Neuron{
 	public float value = 0.0f;
 
 	//A list of all of the gene that are passing it's values to it.
 	public List<Gene> incomingGenes = new List<Gene> ();
 
-	public Neuron ()
-	{
+	public Neuron (){
 
 	}
 
 	//A method that copies all the values of another Neuron into itself.
-	public void neuronCopyFull (Neuron incomingNeuron)
-	{
+	public void neuronCopyFull (Neuron incomingNeuron){
 		value = incomingNeuron.value;
 
 		incomingGenes.Clear ();
@@ -2362,8 +2302,7 @@ public class Neuron
 }
 
 //A custom class object to represent a Genome.
-public class Genome
-{
+public class Genome{
 	public int fitness = 0;
 	public int adjustedFitness = 0;
 
@@ -2385,14 +2324,12 @@ public class Genome
 	//The Genomes network.
 	public List<Neuron> genomeNetwork = new List<Neuron> ();
 
-	public Genome ()
-	{
+	public Genome (){
 
 	}
 
 	//A method that copies some of the values of another Neuron into itself.
-	public void genomePartialCopy (Genome genome0)
-	{
+	public void genomePartialCopy (Genome genome0){
 
 		genomeGeneWeightChance = genome0.genomeGeneWeightChance;
 		genomeLinkChance = genome0.genomeLinkChance;
@@ -2409,8 +2346,7 @@ public class Genome
 	}
 
 	//A method that copies all the values of another Genome into itself.
-	public void genomeFullCopy (Genome genome0)
-	{
+	public void genomeFullCopy (Genome genome0){
 
 		genomeGeneWeightChance = genome0.genomeGeneWeightChance;
 		genomeLinkChance = genome0.genomeLinkChance;
@@ -2442,15 +2378,13 @@ public class Genome
 					tempNeuron.neuronCopyFull (genome0.genomeNetwork [counter]);
 					genomeNetwork.Add (tempNeuron);
 				}
-
 			}
 		}
 	}
 }
 
 //A custom class object to represent a Species.
-public class Species
-{
+public class Species{
 
 	public int topFitness = 0;
 	public int averageFitness = 0;
@@ -2459,14 +2393,12 @@ public class Species
 	//The Genomes the species contains.
 	public List<Genome> speciesGenomes = new List<Genome> ();
 
-	public Species ()
-	{
+	public Species (){
 
 	}
 
 	//A method that copies all the values of another Species into itself.
-	public void speciesFullCopy (Species incomingSpecies)
-	{
+	public void speciesFullCopy (Species incomingSpecies){
 
 		topFitness = incomingSpecies.topFitness;
 		averageFitness = incomingSpecies.averageFitness;
@@ -2478,7 +2410,6 @@ public class Species
 			tempGenome.genomeFullCopy (incomingSpecies.speciesGenomes [counter]);
 			speciesGenomes.Add (tempGenome);
 		}
-
 	}
 }
 
@@ -2500,13 +2431,11 @@ public class Pool
 	public Genome championGenome = new Genome ();
 	public Genome swappedOutGenome = new Genome ();
 
-	public Pool ()
-	{
+	public Pool (){
 
 	}
 
-	public void increaseInnovation ()
-	{
+	public void increaseInnovation (){
 		innovation = innovation + 1;
 	}
 }

@@ -6,28 +6,23 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 
-public class KillPlayerOnContact : MonoBehaviour
-{
-
+public class KillPlayerOnContact : MonoBehaviour{
 	//A reference to the LM object in the scene.
 	public LevelManager LM;
 
 	// Use this for initialization
-	void Start ()
-	{
+	void Start (){
 		//Find the LM object in the scene and assign it to the local LM.
 		LM = FindObjectOfType<LevelManager> ();
 	}
 	
 	// Update is called once per frame
-	void Update ()
-	{
+	void Update (){
 		
 	}
 
 	//If the trigger collider hits another collider do the following:
-	void OnTriggerEnter2D (Collider2D other)
-	{
+	void OnTriggerEnter2D (Collider2D other){
 		//If the other collider belongs to an object with the name of "Player", tell the LM the player died.
 		if (other.name == "Player") {
 			LM.playerHasDied ();

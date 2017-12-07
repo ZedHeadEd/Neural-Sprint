@@ -7,28 +7,23 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class InsSceneManagerNA : MonoBehaviour
-{
-
+public class InsSceneManagerNA : MonoBehaviour{
 	//Game object for the button which have been assigned via the Unity Editor.
 	public GameObject BackButton;
 
 	// Use this for initialization
-	void Start ()
-	{
+	void Start (){
 		//On Scene creation tell the button to perform a method if pressed while the Scene is loaded.
 		BackButton.GetComponent<Button> ().onClick.AddListener (nextButtonOnClick);
 	}
 	
 	// Update is called once per frame
-	void Update ()
-	{
+	void Update (){
 		
 	}
 
 	//A method to return to the previous Scene.
-	void nextButtonOnClick ()
-	{
+	void nextButtonOnClick (){
 		//Load the previous Scene which is the MainScene.
 		SceneManager.LoadScene ("NeuralPlayInsSceneB", LoadSceneMode.Single);
 	}
