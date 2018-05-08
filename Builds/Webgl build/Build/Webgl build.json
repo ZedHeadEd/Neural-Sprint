@@ -1,0 +1,13 @@
+{
+"companyName": "Edward Moriarty",
+"productName": "Neural Sprint - 4th Year Project",
+"dataUrl": "Webgl build.data.unityweb",
+"asmCodeUrl": "Webgl build.asm.code.unityweb",
+"asmMemoryUrl": "Webgl build.asm.memory.unityweb",
+"asmFrameworkUrl": "Webgl build.asm.framework.unityweb",
+"TOTAL_MEMORY": 268435456,
+"graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Light",
+"backgroundColor": "#524F50"
+}

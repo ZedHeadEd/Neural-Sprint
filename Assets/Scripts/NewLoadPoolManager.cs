@@ -1,4 +1,4 @@
-﻿//This script controlls the functionality of the buttons, what they do and loading the correct scene when doing so for the Scene that asks the user whether to run the neural Network from a new pool or an existing one, or go back to the previous Scene.
+﻿//This script controls the functionality of the buttons, what they do and loading the correct scene when doing so for the Scene that asks the user whether to run the neural Network from a new pool or an existing one, or go back to the previous Scene.
 
 using System.Collections;
 using System.Collections.Generic;
