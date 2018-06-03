@@ -2,7 +2,7 @@
 
 ---
 
-![alt text](NeuralSprint/MainMenu.PNG "Neural Sprint Main Menu")
+[![alt text](NeuralSprint/MainMenu.PNG "Neural Sprint Main Menu")](https://youtu.be/_wV1XPzwleo)
 
 ---
 
@@ -13,4 +13,4 @@ Neural Sprint is a 2-D side scrolling platform game written in C# and built with
 
 The purpose of this project is to demonstrate the use and application of a Neural Network (specifically NEAT) within one of the most common forms of media: Video Games.
 
-Also provided is a brief video walkthrough of the game as well as the user guide which also contains some screenshots of the game.
+Also provided is a brief video walkthrough of the game which can be viewed by clicking on the image above or by visiting the following link: https://youtu.be/_wV1XPzwleo
